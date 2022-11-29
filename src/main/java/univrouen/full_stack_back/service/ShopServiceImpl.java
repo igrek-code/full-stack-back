@@ -6,18 +6,19 @@ import univrouen.full_stack_back.Repository.ShopRepository;
 import univrouen.full_stack_back.model.Shop;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ShopServiceImpl implements  ShopService{
     @Autowired
     private ShopRepository shopRepository;
     @Override
-    public Shop addShop(Shop shop){
+    public Shop save(Shop shop){
         return shopRepository.save(shop);
     }
 
     @Override
-    public List<Shop> showShops() {
-        return shopRepository.findAll();
+    public Optional<Shop> findById(long id) {
+        return shopRepository.findById(id);
     }
 }

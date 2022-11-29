@@ -10,6 +10,7 @@ import univrouen.full_stack_back.model.Shop;
 import univrouen.full_stack_back.service.ShopService;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 
 @RestController
@@ -27,7 +28,20 @@ public class ShopController {
     public Shop addShop(
             @ApiParam(value = "New store", required = true)
             @Valid @RequestBody(required = true) Shop shop) {
-        return shopService.addShop(shop);
+        return shopService.save(shop);
+    }
+
+    @GetMapping(path="/{id}",produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Get store by id")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Invalid id supplied"),
+            @ApiResponse(code = 404, message = "Store not found")
+    })
+    public Optional<Shop> getShop(
+            @ApiParam(value = "Store id", required = true)
+            @PathVariable(required = true) Long id){
+        return shopService.findById(id);
     }
 
 
