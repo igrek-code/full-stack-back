@@ -10,6 +10,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.Date;
 
 @Table(name="Shop")
 @Getter
@@ -32,5 +34,11 @@ public class Shop {
     @NotBlank(message = "closed is mandatory")
     @Schema(example = "false")
     private  Boolean closed;
+    @Column(name="opening_time")
+    @NotBlank(message = "opening_time is mandatory")
+    private ArrayList<Date> opening_time = new ArrayList(6);
+    @Column(name="closing_time")
+    @NotBlank(message = "closing_time is mandatory")
+    private ArrayList<Date>  closing_time = new ArrayList(6);
 
 }
