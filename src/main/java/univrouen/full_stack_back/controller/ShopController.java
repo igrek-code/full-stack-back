@@ -45,4 +45,22 @@ public class ShopController {
     }
 
 
+    @PutMapping(path="/{id}",consumes = "application/json", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Update store by id")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Invalid id supplied"),
+            @ApiResponse(code = 404, message = "Store not found"),
+            @ApiResponse(code = 405, message = "Validation exception")
+    })
+    public Shop update(
+            @ApiParam(value = "Store id to modify", required = true)
+            @PathVariable (required = true) Long id,
+            @ApiParam(value = "New store information", required = true)
+            @RequestBody Shop shop)
+    {
+        return shopService.update(id,shop);
+    }
+
+
 }

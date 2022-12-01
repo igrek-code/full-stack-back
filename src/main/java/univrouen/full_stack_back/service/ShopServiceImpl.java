@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public class ShopServiceImpl implements  ShopService{
     @Autowired
-    private ShopRepository shopRepository;
+    private  ShopRepository shopRepository;
     @Override
     public Shop save(Shop shop){
         return shopRepository.save(shop);
@@ -21,4 +21,19 @@ public class ShopServiceImpl implements  ShopService{
     public Optional<Shop> findById(long id) {
         return shopRepository.findById(id);
     }
+
+
+
+    @Override
+    public Shop update( Long id,Shop newShop) {
+        //updating a record
+        return shopRepository.findById(id)
+                .map(shop -> {
+                    shop.setName(newShop.getName());
+                    shop.setClosed(newShop.getClosed());
+                    return shopRepository.save(shop);
+                }).orElseThrow(()->new RuntimeException("shop does not exist!"));
+    }
+
+
 }

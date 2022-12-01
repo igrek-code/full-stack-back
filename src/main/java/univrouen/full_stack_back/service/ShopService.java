@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface ShopService {
     Shop save(Shop shop);
     Optional<Shop> findById(long id);
+    Shop update(Long shopId,Shop shop);
 }
