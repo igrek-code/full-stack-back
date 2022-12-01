@@ -62,5 +62,18 @@ public class ShopController {
         return shopService.update(id,shop);
     }
 
+    @DeleteMapping(path="/{id}",produces = "",consumes="")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "delete store by id")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Invalid id supplied")
+    })
+    private void delete(
+            @ApiParam(value = "Store id to delete", required = true)
+            @PathVariable("id") long id)
+    {
+        shopService.delete(id);
+    }
+
 
 }

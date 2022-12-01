@@ -35,5 +35,10 @@ public class ShopServiceImpl implements  ShopService{
                 }).orElseThrow(()->new RuntimeException("shop does not exist!"));
     }
 
+    @Override
+    public void delete(Long id) {
+        shopRepository.deleteById(id);
+    }
+
 
 }
