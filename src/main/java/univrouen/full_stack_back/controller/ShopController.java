@@ -62,7 +62,7 @@ public class ShopController {
         return shopService.update(id,shop);
     }
 
-    @DeleteMapping(path="/{id}",produces = "",consumes="")
+    @DeleteMapping(path="/{id}")
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "delete store by id")
     @ApiResponses({
