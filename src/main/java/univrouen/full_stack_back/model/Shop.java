@@ -1,21 +1,18 @@
 package univrouen.full_stack_back.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.time.LocalTime;
-import java.util.*;
+import java.util.List;
 
 @Table(name="Shop")
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -36,9 +33,13 @@ public class Shop {
     @Schema(example = "false")
     private  Boolean closed;
 
-    @Column(name="schedule")
-    @NotEmpty(message = "schedule is mandatory")
-    @Size(min=1, max=7)
-    @Schema(example = "\"lundi\": [\"9-15\"], \"mardi\": [\"6-12\", \"15-18\"]")
-    private HashMap<String, List<String>> schedule;
+//    @Column(name="schedule")
+//    @NotEmpty(message = "schedule is mandatory")
+//    @Size(min=1, max=7)
+//    @Schema(example = "\"lundi\": [\"9-15\"], \"mardi\": [\"6-12\", \"15-18\"]")
+//    private HashMap<String, List<String>> schedule;
+
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Product> products;
 }
