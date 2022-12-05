@@ -8,6 +8,7 @@ import univrouen.full_stack_back.model.Product;
 import univrouen.full_stack_back.service.ProductService;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.Optional;
 
 @RestController
@@ -39,5 +40,23 @@ public class ProductController {
             @ApiParam(value = "Product id", required = true)
             @PathVariable(required = true) Long id){
         return productService.findById(id);
+    }
+
+
+    @PutMapping(path="/{id}/description",consumes = "application/json", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Add product description by id")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Invalid id supplied"),
+            @ApiResponse(code = 404, message = "Product not found"),
+            @ApiResponse(code = 405, message = "Validation exception")
+    })
+    public Product addProductDescription(
+            @ApiParam(value = "Product id to add description", required = true)
+            @PathVariable (required = true) Long id,
+            @ApiParam(value = "Product description", required = true)
+            @RequestBody HashMap<String, String> description)
+    {
+        return productService.addDescription(id, description);
     }
 }

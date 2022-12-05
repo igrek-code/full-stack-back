@@ -2,12 +2,9 @@ package univrouen.full_stack_back.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import univrouen.full_stack_back.Repository.ProductRepository;
 import univrouen.full_stack_back.Repository.ShopRepository;
-import univrouen.full_stack_back.model.Product;
 import univrouen.full_stack_back.model.Shop;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,7 +26,6 @@ public class ShopServiceImpl implements  ShopService{
 
     @Override
     public Shop update( Long id,Shop newShop) {
-        //updating a record
         return shopRepository.findById(id)
                 .map(shop -> {
                     shop.setName(newShop.getName());

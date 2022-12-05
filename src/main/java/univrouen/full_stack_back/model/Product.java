@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -32,6 +33,10 @@ public class Product {
     @Schema(example = "5.40")
 //    TODO add contraint to put price in query post
     private double price;
+
+    @Column
+//    TODO insert schema for description
+    private HashMap<String, String> description;
 
     @ManyToOne
     @JoinColumn(name = "shop_id")
