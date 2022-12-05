@@ -25,6 +25,12 @@ public class Product {
     @Schema(example = "tacos")
     private String name;
 
+    @Column
+    @NotNull(message = "price is mandatory")
+    @Schema(example = "5.40")
+//    TODO add contraint to put price in query post
+    private double price;
+
     @ManyToOne
     @JoinColumn(name = "shop_id")
     @JsonBackReference
