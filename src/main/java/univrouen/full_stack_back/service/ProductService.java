@@ -8,4 +8,5 @@ public interface ProductService {
     Product save(Product product);
 
     Optional<Product> findById(long id);
+    Product update(long id, Product product);
 }
