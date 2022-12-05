@@ -28,4 +28,14 @@ public class ProductServiceImpl implements ProductService{
                     return productRepository.save(product);
                 }).orElseThrow(()->new RuntimeException("product does not exist!"));
     }
+
+    @Override
+    public Product update(long id, Product newProduct) {
+        return productRepository.findById(id)
+                .map(product -> {
+                    product.setName(newProduct.getName());
+                    product.setPrice(newProduct.getPrice());
+                    return productRepository.save(product);
+                }).orElseThrow(()->new RuntimeException("Product does not exist!"));
+    }
 }
