@@ -7,7 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,4 +43,11 @@ public class GlobalExceptionHandling {
         return errors;
     }
 
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected Map<String, String> handleHttpRequestMethodNotSupportedExceptions(HttpRequestMethodNotSupportedException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "This request does not exist in the API");
+        return errors;
+    }
 }
