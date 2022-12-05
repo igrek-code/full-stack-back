@@ -8,6 +8,7 @@ import univrouen.full_stack_back.model.Product;
 import univrouen.full_stack_back.service.ProductService;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/product")
@@ -25,5 +26,18 @@ public class ProductController {
             @ApiParam(value = "New product", required = true)
             @Valid @RequestBody(required = true) Product product) {
         return productService.save(product);
+    }
+
+    @GetMapping(path="/{id}",produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Get product by id")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Invalid id supplied"),
+            @ApiResponse(code = 404, message = "Product not found")
+    })
+    public Optional<Product> getProduct(
+            @ApiParam(value = "Product id", required = true)
+            @PathVariable(required = true) Long id){
+        return productService.findById(id);
     }
 }
