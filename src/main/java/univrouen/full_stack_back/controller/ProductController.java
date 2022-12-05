@@ -60,6 +60,7 @@ public class ProductController {
         return productService.addDescription(id, description);
     }
 
+//    TODO gerer les exceptions
     @PutMapping(path="/{id}",consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Update product by id")
@@ -68,7 +69,7 @@ public class ProductController {
             @ApiResponse(code = 404, message = "Product not found"),
             @ApiResponse(code = 405, message = "Validation exception")
     })
-    public Product update(
+    public Product updateProduct(
             @ApiParam(value = "Product id to modify", required = true)
             @PathVariable (required = true) long id,
             @ApiParam(value = "New product information", required = true)
