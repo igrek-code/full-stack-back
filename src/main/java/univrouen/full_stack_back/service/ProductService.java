@@ -9,4 +9,7 @@ public interface ProductService {
     Product save(Product product);
     Product addDescription(long id, HashMap<String, String> description);
     Optional<Product> findById(long id);
+
+
+    void delete(long id);
 }

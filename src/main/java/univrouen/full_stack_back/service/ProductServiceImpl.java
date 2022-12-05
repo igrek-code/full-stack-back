@@ -21,6 +21,7 @@ public class ProductServiceImpl implements ProductService{
         return productRepository.findById(id);
     }
 
+
     public Product addDescription(long id, HashMap<String, String> description){
         return productRepository.findById(id)
                 .map(product -> {
@@ -28,4 +29,11 @@ public class ProductServiceImpl implements ProductService{
                     return productRepository.save(product);
                 }).orElseThrow(()->new RuntimeException("product does not exist!"));
     }
+
+
+    @Override
+    public void delete(long id) {
+        productRepository.deleteById(id);
+    }
+
 }
