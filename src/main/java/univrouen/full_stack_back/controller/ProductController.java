@@ -75,4 +75,22 @@ public class ProductController {
             @RequestParam int size){
         return productService.findAll(page, size);
     }
+
+//    TODO gerer les exceptions
+    @PutMapping(path="/{id}",consumes = "application/json", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Update product by id")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Invalid id supplied"),
+            @ApiResponse(code = 404, message = "Product not found"),
+            @ApiResponse(code = 405, message = "Validation exception")
+    })
+    public Product updateProduct(
+            @ApiParam(value = "Product id to modify", required = true)
+            @PathVariable (required = true) long id,
+            @ApiParam(value = "New product information", required = true)
+            @RequestBody Product product)
+    {
+        return productService.update(id,product);
+    }
 }
