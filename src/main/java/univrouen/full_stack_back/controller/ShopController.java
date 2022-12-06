@@ -1,15 +1,16 @@
 package univrouen.full_stack_back.controller;
 
 
-
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import univrouen.full_stack_back.model.Product;
 import univrouen.full_stack_back.model.Shop;
 import univrouen.full_stack_back.service.ShopService;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -53,7 +54,7 @@ public class ShopController {
             @ApiResponse(code = 404, message = "Store not found"),
             @ApiResponse(code = 405, message = "Validation exception")
     })
-    public Shop update(
+    public Shop updateShop(
             @ApiParam(value = "Store id to modify", required = true)
             @PathVariable (required = true) Long id,
             @ApiParam(value = "New store information", required = true)
@@ -68,12 +69,27 @@ public class ShopController {
     @ApiResponses({
             @ApiResponse(code = 400, message = "Invalid id supplied")
     })
-    private void delete(
+    private void deleteShop(
             @ApiParam(value = "Store id to delete", required = true)
             @PathVariable("id") long id)
     {
         shopService.delete(id);
     }
 
-
+    @GetMapping(path="/{id}/products",produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Get products by store id")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Invalid id supplied"),
+            @ApiResponse(code = 404, message = "Store not found")
+    })
+    public List<Product> getShopProducts(
+            @ApiParam(value = "Store id", required = true)
+            @PathVariable(required = true) Long id,
+            @ApiParam(value = "Page number", required = true)
+            @RequestParam int page,
+            @ApiParam(value = "Number of products in the page", required = true)
+            @RequestParam int size){
+        return shopService.findProductsById(id, page, size);
+    }
 }

@@ -9,7 +9,6 @@ import univrouen.full_stack_back.service.ProductService;
 
 import javax.validation.Valid;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -59,21 +58,6 @@ public class ProductController {
             @RequestBody HashMap<String, String> description)
     {
         return productService.addDescription(id, description);
-    }
-
-    @GetMapping(produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Get products with pagination")
-    @ApiResponses({
-            @ApiResponse(code = 400, message = "Page or size missing"),
-            @ApiResponse(code = 500, message = "Page or size out of bound")
-    })
-    public List<Product> getProducts(
-            @ApiParam(value = "Page number", required = true)
-            @RequestParam int page,
-            @ApiParam(value = "Number of products in the page", required = true)
-            @RequestParam int size){
-        return productService.findAll(page, size);
     }
 
 //    TODO gerer les exceptions
