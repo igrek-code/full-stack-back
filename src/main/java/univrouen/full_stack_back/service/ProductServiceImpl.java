@@ -24,6 +24,7 @@ public class ProductServiceImpl implements ProductService{
         return productRepository.findById(id);
     }
 
+
     public Product addDescription(long id, HashMap<String, String> description){
         return productRepository.findById(id)
                 .map(product -> {
@@ -46,4 +47,11 @@ public class ProductServiceImpl implements ProductService{
         Pageable pageable = PageRequest.of(page, size);
         return productRepository.findAll(pageable).getContent();
     }
+
+
+    @Override
+    public void delete(long id) {
+        productRepository.deleteById(id);
+    }
+
 }

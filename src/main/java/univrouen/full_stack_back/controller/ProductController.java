@@ -93,4 +93,17 @@ public class ProductController {
     {
         return productService.update(id,product);
     }
+
+    @DeleteMapping(path="/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "delete product by id")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Invalid id supplied")
+    })
+    private void delete(
+            @ApiParam(value = "product id to delete", required = true)
+            @PathVariable("id") long id)
+    {
+        productService.delete(id);
+    }
 }

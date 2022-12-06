@@ -12,4 +12,7 @@ public interface ProductService {
     Optional<Product> findById(long id);
     public Product update(long id, Product newProduct);
     List<Product> findAll(int page, int size);
+
+
+    void delete(long id);
 }
