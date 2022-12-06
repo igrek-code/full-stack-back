@@ -45,4 +45,17 @@ public class CategoryController {
     {
         return categoryService.update(id,category);
     }
+
+    @DeleteMapping(path="/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "delete category by id")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Invalid id supplied")
+    })
+    private void delete(
+            @ApiParam(value = "category id to delete", required = true)
+            @PathVariable("id") long id)
+    {
+        categoryService.delete(id);
+    }
 }

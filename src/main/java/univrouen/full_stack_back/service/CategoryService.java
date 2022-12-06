@@ -6,4 +6,5 @@ import univrouen.full_stack_back.model.Shop;
 public interface CategoryService {
     Category save(Category category);
     Category update(long id, Category category);
+    void delete(long id);
 }

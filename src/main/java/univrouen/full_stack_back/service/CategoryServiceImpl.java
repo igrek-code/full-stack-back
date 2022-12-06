@@ -25,4 +25,9 @@ public class CategoryServiceImpl implements CategoryService {
                 }).orElseThrow(() -> new RuntimeException("shop does not exist!"));
 
     }
+
+    @Override
+    public void delete(long id) {
+        categoryRepository.deleteById(id);
+    }
 }
