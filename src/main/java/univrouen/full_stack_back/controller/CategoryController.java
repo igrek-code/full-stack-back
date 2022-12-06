@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import univrouen.full_stack_back.model.Category;
+import univrouen.full_stack_back.model.Product;
 import univrouen.full_stack_back.service.CategoryService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/category")
@@ -26,4 +28,6 @@ public class CategoryController {
             @Valid @RequestBody(required = true) Category category) {
         return categoryService.save(category);
     }
+
+
 }
