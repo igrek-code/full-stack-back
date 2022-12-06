@@ -4,4 +4,5 @@ import univrouen.full_stack_back.model.Category;
 
 public interface CategoryService {
     Category save(Category category);
+    void delete(long id);
 }
