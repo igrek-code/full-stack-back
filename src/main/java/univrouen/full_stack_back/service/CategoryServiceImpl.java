@@ -13,4 +13,13 @@ public class CategoryServiceImpl implements CategoryService {
     public Category save(Category category){
         return categoryRepository.save(category);
     }
+
+    @Override
+    public Category update(long id, Category newCategory) {
+        return categoryRepository.findById(id)
+                .map(category -> {
+                    category.setName(newCategory.getName());
+                    return categoryRepository.save(category);
+                }).orElseThrow(()->new RuntimeException("Category does not exist!"));
+    }
 }
