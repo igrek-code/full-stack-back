@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import univrouen.full_stack_back.model.Category;
+import univrouen.full_stack_back.model.Shop;
 import univrouen.full_stack_back.service.CategoryService;
 
 import javax.validation.Valid;
@@ -25,5 +26,23 @@ public class CategoryController {
             @ApiParam(value = "New category", required = true)
             @Valid @RequestBody(required = true) Category category) {
         return categoryService.save(category);
+    }
+
+
+    @PutMapping(path="/{id}",consumes = "application/json", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Update category by id")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Invalid id supplied"),
+            @ApiResponse(code = 404, message = "category not found"),
+            @ApiResponse(code = 405, message = "Validation exception")
+    })
+    public Category updateCategory(
+            @ApiParam(value = "Store id to modify", required = true)
+            @PathVariable (required = true) Long id,
+            @ApiParam(value = "New store information", required = true)
+            @RequestBody Category category)
+    {
+        return categoryService.update(id,category);
     }
 }
