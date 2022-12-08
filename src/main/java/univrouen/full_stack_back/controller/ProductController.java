@@ -102,12 +102,12 @@ public class ProductController {
             @ApiResponse(code = 400, message = "Invalid id supplied"),
             @ApiResponse(code = 404, message = "product not found")
     })
-    public List<Category> getShopProducts(
+    public List<Category> getProductCategories(
             @ApiParam(value = "product id", required = true)
             @PathVariable(required = true) Long id,
             @ApiParam(value = "Page number", required = true)
             @RequestParam int page,
-            @ApiParam(value = "Number of products in the page", required = true)
+            @ApiParam(value = "Number of categories in the page", required = true)
             @RequestParam int size){
         return productService.findCategoriesById(id, page, size);
     }
