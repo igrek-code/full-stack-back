@@ -36,7 +36,7 @@ public class CategoryController {
             @ApiResponse(code = 404, message = "Category not found"),
             @ApiResponse(code = 405, message = "Validation exception")
     })
-    public Category updateShop(
+    public Category updateCategory(
             @ApiParam(value = "Category id to modify", required = true)
             @PathVariable (required = true) Long id,
             @ApiParam(value = "New category information", required = true)
