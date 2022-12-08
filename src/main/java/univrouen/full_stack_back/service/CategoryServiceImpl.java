@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import univrouen.full_stack_back.Repository.CategoryRepository;
 import univrouen.full_stack_back.model.Category;
+import univrouen.full_stack_back.model.Shop;
+
+import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -12,6 +15,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     public Category save(Category category){
         return categoryRepository.save(category);
+    }
+
+    @Override
+    public Optional<Category> findById(long id) {
+        return categoryRepository.findById(id);
     }
 
     @Override
