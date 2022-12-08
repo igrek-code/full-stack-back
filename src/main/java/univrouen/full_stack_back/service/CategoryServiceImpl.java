@@ -22,4 +22,9 @@ public class CategoryServiceImpl implements CategoryService {
                     return categoryRepository.save(category);
                 }).orElseThrow(()->new RuntimeException("Category does not exist!"));
     }
+
+    @Override
+    public void delete(long id) {
+        categoryRepository.deleteById(id);
+    }
 }
