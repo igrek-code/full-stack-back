@@ -38,7 +38,7 @@ public class CategoryController {
     })
     public Optional<Category> getCategory(
             @ApiParam(value = "Category id", required = true)
-            @PathVariable(required = true) Long id){
+            @PathVariable(required = true) long id){
         return categoryService.findById(id);
     }
 }
