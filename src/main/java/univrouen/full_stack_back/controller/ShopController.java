@@ -40,6 +40,21 @@ public class ShopController {
     return shopService.findById(id);
   }
 
+  @GetMapping(produces = "application/json")
+  @ResponseStatus(HttpStatus.OK)
+  @ApiOperation(value = "Get shops with pagination")
+  @ApiResponses({
+          @ApiResponse(code = 400, message = "Page or size missing"),
+          @ApiResponse(code = 500, message = "Page or size out of bound")
+  })
+  public List<Shop> getShops(
+          @ApiParam(value = "Page number", required = true)
+          @RequestParam int page,
+          @ApiParam(value = "Number of shops in the page", required = true)
+          @RequestParam int size){
+    return shopService.findAll(page, size);
+  }
+
   @PutMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Update store by id")

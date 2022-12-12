@@ -29,6 +29,11 @@ public class ShopServiceImpl implements ShopService {
   }
 
   @Override
+  public List<Shop> findAll(int page, int size){
+    Pageable pageable = PageRequest.of(page, size);
+    return shopRepository.findAll(pageable).getContent();
+  }
+  @Override
   public Shop update(Long id, Shop newShop) {
     return shopRepository
         .findById(id)

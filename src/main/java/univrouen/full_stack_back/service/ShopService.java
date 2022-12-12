@@ -10,6 +10,7 @@ public interface ShopService {
   Shop save(Shop shop);
 
   Optional<Shop> findById(long id);
+  List<Shop> findAll(int page, int size);
 
   Shop update(Long shopId, Shop shop);
 
