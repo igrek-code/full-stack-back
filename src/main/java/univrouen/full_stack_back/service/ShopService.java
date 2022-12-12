@@ -7,15 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ShopService {
-  Shop save(Shop shop);
-
-  Optional<Shop> findById(long id);
-
-  Shop update(Long shopId, Shop shop);
-
-  void delete(Long id);
-
-  List<Product> findProductsByShopId(long id, int page, int size);
-
-  List<Product> findProductsByShopIdAndCategoryName(long id, String category);
+    Shop save(Shop shop);
+    Optional<Shop> findById(long id);
+    Shop update(Long shopId,Shop shop);
+    void delete(Long id);
+    List<Shop> findAll();
+    List<Product> findProductsById(long id, int page, int size);
 }
