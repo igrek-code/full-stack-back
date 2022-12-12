@@ -15,19 +15,19 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
 
-    @Column
-    @NotBlank(message = "Name is mandatory")
-    @Schema(example = "plat principal")
-    private String name;
+  @Column
+  @NotBlank(message = "Name is mandatory")
+  @Schema(example = "plat principal")
+  private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    @JsonBackReference
-    @NotNull(message = "product is mandatory")
-//    TODO add schema to shop in product
-    private Product product;
+  @ManyToOne
+  @JoinColumn(name = "product_id")
+  @JsonBackReference
+  @NotNull(message = "product is mandatory")
+  //    TODO add schema to shop in product
+  private Product product;
 }

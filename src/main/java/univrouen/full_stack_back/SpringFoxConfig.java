@@ -10,13 +10,13 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 public class SpringFoxConfig {
 
-    @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .useDefaultResponseMessages(false)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("univrouen.full_stack_back"))
-                .paths(PathSelectors.any())
-                .build();
-    }
+  @Bean
+  public Docket api() {
+    return new Docket(DocumentationType.SWAGGER_2)
+        .useDefaultResponseMessages(false)
+        .select()
+        .apis(RequestHandlerSelectors.basePackage("univrouen.full_stack_back"))
+        .paths(PathSelectors.any())
+        .build();
+  }
 }

@@ -19,33 +19,33 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
 
-    @Column
-    @NotBlank(message = "Name is mandatory")
-    @Schema(example = "tacos")
-    private String name;
+  @Column
+  @NotBlank(message = "Name is mandatory")
+  @Schema(example = "tacos")
+  private String name;
 
-    @Column
-    @NotNull(message = "price is mandatory")
-    @Schema(example = "5.40")
-//    TODO add contraint to put price in query post
-    private double price;
+  @Column
+  @NotNull(message = "price is mandatory")
+  @Schema(example = "5.40")
+  //    TODO add contraint to put price in query post
+  private double price;
 
-    @Column
-//    TODO insert schema for description
-    private HashMap<String, String> description;
+  @Column
+  //    TODO insert schema for description
+  private HashMap<String, String> description;
 
-    @ManyToOne
-    @JoinColumn(name = "shop_id")
-    @JsonBackReference
-    @NotNull(message = "shop is mandatory")
-//    TODO add schema to shop in product
-    private Shop shop;
+  @ManyToOne
+  @JoinColumn(name = "shop_id")
+  @JsonBackReference
+  @NotNull(message = "shop is mandatory")
+  //    TODO add schema to shop in product
+  private Shop shop;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Category> categories;
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+  @JsonManagedReference
+  private List<Category> categories;
 }
