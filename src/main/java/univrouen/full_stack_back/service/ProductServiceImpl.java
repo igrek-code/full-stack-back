@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import univrouen.full_stack_back.Repository.CategoryRepository;
-import univrouen.full_stack_back.Repository.ProductRepository;
+import univrouen.full_stack_back.repository.CategoryRepository;
+import univrouen.full_stack_back.repository.ProductRepository;
 import univrouen.full_stack_back.model.Category;
 import univrouen.full_stack_back.model.Product;
 
@@ -17,9 +17,12 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
   @Autowired private ProductRepository productRepository;
   @Autowired private CategoryRepository categoryRepository;
+  @Autowired private ShopService shopService;
 
   public Product save(Product product) {
-    return productRepository.save(product);
+    Product insertedProduct = productRepository.save(product);
+    shopService.incrementProductCount(insertedProduct.getShop().getId());
+    return insertedProduct;
   }
 
   public Optional<Product> findById(long id) {

@@ -1,4 +1,4 @@
-package univrouen.full_stack_back.Repository;
+package univrouen.full_stack_back.repository;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

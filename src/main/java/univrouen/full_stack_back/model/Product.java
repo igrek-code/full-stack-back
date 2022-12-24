@@ -38,7 +38,7 @@ public class Product {
   //    TODO insert schema for description
   private HashMap<String, String> description;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "shop_id")
   @JsonBackReference
   @NotNull(message = "shop is mandatory")

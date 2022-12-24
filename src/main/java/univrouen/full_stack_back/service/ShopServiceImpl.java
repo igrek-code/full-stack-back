@@ -4,11 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import univrouen.full_stack_back.Repository.ProductRepository;
-import univrouen.full_stack_back.Repository.ShopRepository;
+import univrouen.full_stack_back.repository.ProductRepository;
+import univrouen.full_stack_back.repository.ShopRepository;
 import univrouen.full_stack_back.model.Product;
 import univrouen.full_stack_back.model.Shop;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,10 +30,10 @@ public class ShopServiceImpl implements ShopService {
   }
 
   @Override
-  public List<Shop> findAll(int page, int size){
-    Pageable pageable = PageRequest.of(page, size);
-    return shopRepository.findAll(pageable).getContent();
+  public List<Shop> findAll() {
+    return shopRepository.findAll();
   }
+
   @Override
   public Shop update(Long id, Shop newShop) {
     return shopRepository
@@ -61,4 +62,26 @@ public class ShopServiceImpl implements ShopService {
   public List<Product> findProductsByShopIdAndCategoryName(long id, String category) {
     return productRepository.findAllByShopIdAndCategories_Name(id, category);
   }
+
+  @Override
+  public List<Shop> findByClosedAndCreationDateBetween(boolean closed, Date start, Date end) {
+    return shopRepository.findByClosedAndCreationDateBetween(closed, start, end);
+  }
+
+    @Override
+  public void incrementProductCount(long id) {
+    shopRepository.findById(id).map(shop -> {
+      shop.setProductCount(shop.getProductCount() + 1);
+      return shopRepository.save(shop);
+    }).orElseThrow(() -> new RuntimeException("shop does not exist!"));
+  }
+
+  @Override
+  public void incrementCategoryCount(long id) {
+    shopRepository.findById(id).map(shop -> {
+      shop.setCategoryCount(shop.getCategoryCount() + 1);
+      return shopRepository.save(shop);
+    }).orElseThrow(() -> new RuntimeException("shop does not exist!"));
+  }
+
 }

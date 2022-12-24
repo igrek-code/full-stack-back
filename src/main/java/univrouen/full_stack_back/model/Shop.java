@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Table(name = "Shop")
@@ -33,13 +34,30 @@ public class Shop {
   @Schema(example = "false")
   private Boolean closed;
 
+  @Column(updatable = false)
+  private LocalDateTime creationDate;
+
+  @Column(insertable = false, columnDefinition = "int default 0")
+  @NotNull
+  private int productCount;
+
+  @Column(insertable = false, columnDefinition = "int default 0")
+  @NotNull
+  private int categoryCount;
+
+  @PrePersist
+  void onCreate() {
+    this.creationDate = LocalDateTime.now();
+//    this.productCount = 0;
+  }
+
   //    @Column(name="schedule")
   //    @NotEmpty(message = "schedule is mandatory")
   //    @Size(min=1, max=7)
   //    @Schema(example = "\"lundi\": [\"9-15\"], \"mardi\": [\"6-12\", \"15-18\"]")
   //    private HashMap<String, List<String>> schedule;
 
-  @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JsonManagedReference
   private List<Product> products;
 }
