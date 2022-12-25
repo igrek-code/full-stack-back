@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
-  Product save(Product product);
+  Product save(Product product, long shopId);
 
   Product addDescription(long id, HashMap<String, String> description);
 
@@ -19,4 +19,6 @@ public interface ProductService {
   void delete(long id);
 
   List<Category> findCategoriesById(long id, int page, int size);
+
+  List<Product> findAllByShopId(long shopId);
 }

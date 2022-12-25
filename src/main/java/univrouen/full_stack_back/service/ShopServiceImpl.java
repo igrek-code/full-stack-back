@@ -1,13 +1,11 @@
 package univrouen.full_stack_back.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import univrouen.full_stack_back.repository.ProductRepository;
-import univrouen.full_stack_back.repository.ShopRepository;
 import univrouen.full_stack_back.model.Product;
 import univrouen.full_stack_back.model.Shop;
+import univrouen.full_stack_back.repository.ProductRepository;
+import univrouen.full_stack_back.repository.ShopRepository;
 
 import java.util.Date;
 import java.util.List;
@@ -52,11 +50,6 @@ public class ShopServiceImpl implements ShopService {
     shopRepository.deleteById(id);
   }
 
-  @Override
-  public List<Product> findProductsByShopId(long id, int page, int size) {
-    Pageable pageable = PageRequest.of(page, size);
-    return productRepository.findAllByShopId(id, pageable);
-  }
 
   @Override
   public List<Product> findProductsByShopIdAndCategoryName(long id, String category) {

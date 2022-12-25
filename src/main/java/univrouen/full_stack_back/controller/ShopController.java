@@ -89,19 +89,20 @@ public class ShopController {
     shopService.delete(id);
   }
 
-  @GetMapping(path = "/{id}/products", produces = "application/json")
-  @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(value = "Get products by store id")
-  @ApiResponses({
-    @ApiResponse(code = 400, message = "Invalid id supplied"),
-    @ApiResponse(code = 404, message = "Store not found")
-  })
-  public List<Product> getShopProducts(
-      @ApiParam(value = "Store id", required = true) @PathVariable(required = true) Long id,
-      @ApiParam(value = "Page number", required = true) @RequestParam int page,
-      @ApiParam(value = "Number of products in the page", required = true) @RequestParam int size) {
-    return shopService.findProductsByShopId(id, page, size);
-  }
+//  @GetMapping(path = "/{id}/products", produces = "application/json")
+//  @ResponseStatus(HttpStatus.OK)
+//  @ApiOperation(value = "Get products by store id")
+//  @ApiResponses({
+//    @ApiResponse(code = 400, message = "Invalid id supplied"),
+//    @ApiResponse(code = 404, message = "Store not found")
+//  })
+//  public List<ProductDto> getShopProducts(
+//      @ApiParam(value = "Store id", required = true) @PathVariable(required = true) Long id) {
+//    return shopService.findProductsByShopId(id)
+//            .stream()
+//            .map(product -> modelMapper.map(product, ProductDto.class))
+//            .collect(Collectors.toList());
+//  }
 
   @GetMapping(path = "/{id}/products/findByCategory", produces = "application/json")
   @ResponseStatus(HttpStatus.OK)

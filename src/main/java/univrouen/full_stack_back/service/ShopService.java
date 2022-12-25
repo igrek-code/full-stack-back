@@ -18,7 +18,6 @@ public interface ShopService {
 
   void delete(Long id);
 
-  List<Product> findProductsByShopId(long id, int page, int size);
 
   List<Product> findProductsByShopIdAndCategoryName(long id, String category);
 
