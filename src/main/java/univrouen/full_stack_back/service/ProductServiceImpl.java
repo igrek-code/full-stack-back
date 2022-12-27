@@ -11,7 +11,6 @@ import univrouen.full_stack_back.repository.CategoryRepository;
 import univrouen.full_stack_back.repository.ProductRepository;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,17 +38,6 @@ public class ProductServiceImpl implements ProductService {
     return productRepository.findById(id);
   }
 
-  public Product addDescription(long id, HashMap<String, String> description) {
-    return productRepository
-        .findById(id)
-        .map(
-            product -> {
-              product.setDescription(description);
-              return productRepository.save(product);
-            })
-        .orElseThrow(() -> new RuntimeException("product does not exist!"));
-  }
-
   @Override
   public Product update(long id, Product newProduct) {
     return productRepository
@@ -58,6 +46,7 @@ public class ProductServiceImpl implements ProductService {
             product -> {
               product.setName(newProduct.getName());
               product.setPrice(newProduct.getPrice());
+              product.setDescription(newProduct.getDescription());
               return productRepository.save(product);
             })
         .orElseThrow(() -> new RuntimeException("Product does not exist!"));
