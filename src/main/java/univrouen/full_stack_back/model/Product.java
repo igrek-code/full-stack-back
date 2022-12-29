@@ -23,9 +23,12 @@ public class Product {
   private long id;
 
   @Column
-  @NotBlank(message = "Name is mandatory")
-  @Schema(example = "tacos")
-  private String name;
+  @NotBlank
+  private String nameFR;
+
+  @Column
+  @NotBlank
+  private String nameENG;
 
   @Column
   @NotNull(message = "price is mandatory")
@@ -35,7 +38,10 @@ public class Product {
 
   @Column
   //    TODO insert schema for description
-  private String description;
+  private String descriptionFR;
+
+  @Column
+  private String descriptionENG;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "shop_id")

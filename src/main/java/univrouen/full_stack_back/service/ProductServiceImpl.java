@@ -44,9 +44,11 @@ public class ProductServiceImpl implements ProductService {
         .findById(id)
         .map(
             product -> {
-              product.setName(newProduct.getName());
+              product.setNameFR(newProduct.getNameFR());
+              product.setNameENG(newProduct.getNameENG());
               product.setPrice(newProduct.getPrice());
-              product.setDescription(newProduct.getDescription());
+              product.setDescriptionFR(newProduct.getDescriptionFR());
+              product.setDescriptionENG(newProduct.getDescriptionENG());
               return productRepository.save(product);
             })
         .orElseThrow(() -> new RuntimeException("Product does not exist!"));

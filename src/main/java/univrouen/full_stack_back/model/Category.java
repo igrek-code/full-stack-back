@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
@@ -27,7 +26,6 @@ public class Category {
   @ManyToOne
   @JoinColumn(name = "product_id")
   @JsonBackReference
-  @NotNull(message = "product is mandatory")
   //    TODO add schema to shop in product
   private Product product;
 }

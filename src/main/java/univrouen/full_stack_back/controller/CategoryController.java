@@ -27,7 +27,8 @@ public class CategoryController {
   @ApiOperation(value = "Add a new category to product")
   @ApiResponses({@ApiResponse(code = 400, message = "Bad request")})
   public CategoryDto addCategory(
-      @ApiParam(value = "New category", required = true) @Valid @RequestBody(required = true)
+      @ApiParam(value = "New category", required = true)
+      @Valid @RequestBody(required = true)
       CategoryDto categoryDto) {
     Category category = modelMapper.map(categoryDto, Category.class);
     return modelMapper.map(categoryService.save(category), CategoryDto.class);
