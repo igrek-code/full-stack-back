@@ -1,6 +1,5 @@
 package univrouen.full_stack_back.service;
 
-import univrouen.full_stack_back.model.Category;
 import univrouen.full_stack_back.model.Product;
 
 import java.util.List;
@@ -14,8 +13,6 @@ public interface ProductService {
   public Product update(long id, Product newProduct);
 
   void delete(long id);
-
-  List<Category> findCategoriesById(long id, int page, int size);
 
   List<Product> findAllByShopId(long shopId);
 }

@@ -3,7 +3,7 @@ package univrouen.full_stack_back.controller;
 import io.swagger.annotations.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import univrouen.full_stack_back.dto.CategoryDto;
@@ -12,6 +12,8 @@ import univrouen.full_stack_back.service.CategoryService;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/category")
@@ -29,21 +31,37 @@ public class CategoryController {
   public CategoryDto addCategory(
       @ApiParam(value = "New category", required = true)
       @Valid @RequestBody(required = true)
-      CategoryDto categoryDto) {
+      CategoryDto categoryDto,
+      @Param("productId") long productId) {
     Category category = modelMapper.map(categoryDto, Category.class);
-    return modelMapper.map(categoryService.save(category), CategoryDto.class);
+    return modelMapper.map(categoryService.save(category, productId), CategoryDto.class);
   }
 
   @GetMapping(path = "/{id}", produces = "application/json")
   @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(value = "Get store by id")
+  @ApiOperation(value = "Get categories by product id")
   @ApiResponses({
     @ApiResponse(code = 400, message = "Invalid id supplied"),
     @ApiResponse(code = 404, message = "Store not found")
   })
   public CategoryDto getCategory(
-      @ApiParam(value = "Category id", required = true) @PathVariable(required = true) long id) throws ChangeSetPersister.NotFoundException {
+      @ApiParam(value = "Category id", required = true) @PathVariable(required = true) long id) {
   return modelMapper.map(categoryService.findById(id).orElseThrow(() -> new EntityNotFoundException("invalid category id")), CategoryDto.class);
+  }
+
+  @GetMapping(produces = "application/json")
+  @ResponseStatus(HttpStatus.OK)
+  @ApiOperation(value = "Get products by shop id")
+  @ApiResponses({
+          @ApiResponse(code = 400, message = "Invalid shop id supplied"),
+          @ApiResponse(code = 404, message = "No product found")
+  })
+  public List<CategoryDto> getCategoriesByProductId(
+          @ApiParam(value = "product id", required = true) @Param("productId") Long productId) {
+    return categoryService.findAllByProductId(productId)
+            .stream().map(
+                    category -> modelMapper.map(category, CategoryDto.class)
+            ).collect(Collectors.toList());
   }
 
   @PutMapping(path = "/{id}", consumes = "application/json", produces = "application/json")

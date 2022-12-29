@@ -7,6 +7,8 @@ import univrouen.full_stack_back.model.Product;
 import univrouen.full_stack_back.repository.CategoryRepository;
 import univrouen.full_stack_back.repository.ProductRepository;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,10 +17,16 @@ public class CategoryServiceImpl implements CategoryService {
   @Autowired private ShopService shopService;
   @Autowired private ProductRepository productRepository;
 
-  public Category save(Category category) {
+  public Category save(Category category, long productId) {
+    // Find the shop
+    Optional<Product> optionalProduct = productRepository.findById(productId);
+    if (!optionalProduct.isPresent()) {
+      throw new EntityNotFoundException("Product not found");
+    }
+    Product product = optionalProduct.get();
+    category.setProduct(product);
     Category insertedCategory = categoryRepository.save(category);
-    Product associatedProduct = productRepository.findById(insertedCategory.getProduct().getId()).get();
-    shopService.incrementCategoryCount(associatedProduct.getShop().getId());
+    shopService.incrementCategoryCount(product.getShop().getId());
     return insertedCategory;
   }
 
@@ -42,5 +50,10 @@ public class CategoryServiceImpl implements CategoryService {
   @Override
   public void delete(long id) {
     categoryRepository.deleteById(id);
+  }
+
+  @Override
+  public List<Category> findAllByProductId(long id) {
+    return categoryRepository.findAllByProductId(id);
   }
 }

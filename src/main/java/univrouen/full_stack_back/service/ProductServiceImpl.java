@@ -59,11 +59,6 @@ public class ProductServiceImpl implements ProductService {
     productRepository.deleteById(id);
   }
 
-  @Override
-  public List<Category> findCategoriesById(long id, int page, int size) {
-    Pageable pageable = PageRequest.of(page, size);
-    return categoryRepository.findAllByProductId(id, pageable);
-  }
 @Override
 public List<Product> findAllByShopId(long shopId){
         return productRepository.findAllByShopId(shopId);

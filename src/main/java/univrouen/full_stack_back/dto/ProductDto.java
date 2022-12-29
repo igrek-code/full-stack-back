@@ -1,6 +1,9 @@
 package univrouen.full_stack_back.dto;
 
 import lombok.Data;
+import univrouen.full_stack_back.model.Category;
+
+import java.util.List;
 
 @Data
 public class ProductDto {
@@ -10,5 +13,5 @@ public class ProductDto {
     private double price;
     private String descriptionFR;
     private String descriptionENG;
-//    private List<Category> categories;
+    private List<Category> categories;
 }
