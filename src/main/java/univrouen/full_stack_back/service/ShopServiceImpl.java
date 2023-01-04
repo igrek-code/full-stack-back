@@ -40,6 +40,7 @@ public class ShopServiceImpl implements ShopService {
             shop -> {
               shop.setName(newShop.getName());
               shop.setClosed(newShop.getClosed());
+              shop.setSchedule(newShop.getSchedule());
               return shopRepository.save(shop);
             })
         .orElseThrow(() -> new RuntimeException("shop does not exist!"));

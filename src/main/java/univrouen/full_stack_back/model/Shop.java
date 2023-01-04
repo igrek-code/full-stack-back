@@ -51,11 +51,10 @@ public class Shop {
 //    this.productCount = 0;
   }
 
-  //    @Column(name="schedule")
-  //    @NotEmpty(message = "schedule is mandatory")
-  //    @Size(min=1, max=7)
-  //    @Schema(example = "\"lundi\": [\"9-15\"], \"mardi\": [\"6-12\", \"15-18\"]")
-  //    private HashMap<String, List<String>> schedule;
+      @OneToOne(cascade = CascadeType.ALL)
+      @NotNull(message = "schedule is mandatory")
+//      @Schema(example = "\"lundi\": [\"9-15\"], \"mardi\": [\"6-12\", \"15-18\"]")
+      private OpeningSchedule schedule;
 
   @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JsonManagedReference

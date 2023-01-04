@@ -1,6 +1,7 @@
 package univrouen.full_stack_back.dto;
 
 import lombok.Data;
+import univrouen.full_stack_back.model.OpeningSchedule;
 
 import java.time.LocalDateTime;
 
@@ -12,4 +13,5 @@ public class ShopDto {
     private LocalDateTime creationDate;
     private int productCount;
     private int categoryCount;
+    private OpeningSchedule schedule;
 }
