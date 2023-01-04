@@ -49,6 +49,9 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   public void delete(long id) {
+    Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category does not exist!"));
+    Product product = productRepository.findById(category.getProduct().getId()).orElseThrow(() -> new RuntimeException("Product does not exist!"));
+    shopService.decrementCategoryCount(product.getShop().getId(), 1);
     categoryRepository.deleteById(id);
   }
 

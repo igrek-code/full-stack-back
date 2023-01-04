@@ -24,5 +24,8 @@ public interface ShopService {
   List<Shop> findByClosedAndCreationDateBetween(boolean closed, Date start, Date end);
   void incrementProductCount(long id);
 
+  void decrementProductCount(long id, int count);
+
   void incrementCategoryCount(long id);
+  void decrementCategoryCount(long id, int count);
 }

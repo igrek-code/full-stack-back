@@ -1,10 +1,7 @@
 package univrouen.full_stack_back.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import univrouen.full_stack_back.model.Category;
 import univrouen.full_stack_back.model.Product;
 import univrouen.full_stack_back.model.Shop;
 import univrouen.full_stack_back.repository.CategoryRepository;
@@ -56,7 +53,12 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public void delete(long id) {
+    Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product does not exist!"));
+    int categoryCount = product.getCategories().size();
+    shopService.decrementCategoryCount(product.getShop().getId(), categoryCount);
+    shopService.decrementProductCount(product.getShop().getId(), 1);
     productRepository.deleteById(id);
+
   }
 
 @Override

@@ -71,9 +71,25 @@ public class ShopServiceImpl implements ShopService {
   }
 
   @Override
+  public void decrementProductCount(long id, int count) {
+    shopRepository.findById(id).map(shop -> {
+      shop.setProductCount(shop.getProductCount() - count);
+      return shopRepository.save(shop);
+    }).orElseThrow(() -> new RuntimeException("shop does not exist!"));
+  }
+
+  @Override
   public void incrementCategoryCount(long id) {
     shopRepository.findById(id).map(shop -> {
       shop.setCategoryCount(shop.getCategoryCount() + 1);
+      return shopRepository.save(shop);
+    }).orElseThrow(() -> new RuntimeException("shop does not exist!"));
+  }
+
+  @Override
+  public void decrementCategoryCount(long id, int count) {
+    shopRepository.findById(id).map(shop -> {
+      shop.setCategoryCount(shop.getCategoryCount() - count);
       return shopRepository.save(shop);
     }).orElseThrow(() -> new RuntimeException("shop does not exist!"));
   }
