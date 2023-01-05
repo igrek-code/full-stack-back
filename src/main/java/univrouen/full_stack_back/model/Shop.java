@@ -45,18 +45,19 @@ public class Shop {
   @NotNull
   private int categoryCount;
 
-  @PrePersist
-  void onCreate() {
-    this.creationDate = LocalDateTime.now();
-//    this.productCount = 0;
-  }
-
-      @OneToOne(cascade = CascadeType.ALL)
-      @NotNull(message = "schedule is mandatory")
-//      @Schema(example = "\"lundi\": [\"9-15\"], \"mardi\": [\"6-12\", \"15-18\"]")
-      private OpeningSchedule schedule;
+  @OneToOne(cascade = CascadeType.ALL)
+  @NotNull(message = "schedule is mandatory")
+  @Schema(example = "\"lundi\": [\"9-15\"], \"mardi\": [\"6-12\", \"15-18\"]")
+  private OpeningSchedule schedule;
 
   @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JsonManagedReference
   private List<Product> products;
+
+  @PrePersist
+  void onCreate() {
+    this.creationDate = LocalDateTime.now();
+  }
+
+
 }

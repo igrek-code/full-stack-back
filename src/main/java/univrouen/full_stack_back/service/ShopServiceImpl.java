@@ -2,12 +2,11 @@ package univrouen.full_stack_back.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import univrouen.full_stack_back.model.Product;
 import univrouen.full_stack_back.model.Shop;
 import univrouen.full_stack_back.repository.ProductRepository;
 import univrouen.full_stack_back.repository.ShopRepository;
 
-import java.util.Date;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,23 +42,15 @@ public class ShopServiceImpl implements ShopService {
               shop.setSchedule(newShop.getSchedule());
               return shopRepository.save(shop);
             })
-        .orElseThrow(() -> new RuntimeException("shop does not exist!"));
+        .orElseThrow(() -> new EntityNotFoundException("Store not found"));
   }
 
   @Override
   public void delete(Long id) {
+    if (!shopRepository.existsById(id)) {
+      throw new EntityNotFoundException("Store not found");
+    }
     shopRepository.deleteById(id);
-  }
-
-
-  @Override
-  public List<Product> findProductsByShopIdAndCategoryName(long id, String category) {
-    return productRepository.findAllByShopIdAndCategories_Name(id, category);
-  }
-
-  @Override
-  public List<Shop> findByClosedAndCreationDateBetween(boolean closed, Date start, Date end) {
-    return shopRepository.findByClosedAndCreationDateBetween(closed, start, end);
   }
 
     @Override
