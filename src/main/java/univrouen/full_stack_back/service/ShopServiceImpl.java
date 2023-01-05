@@ -8,7 +8,6 @@ import univrouen.full_stack_back.repository.ShopRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ShopServiceImpl implements ShopService {
@@ -18,12 +17,18 @@ public class ShopServiceImpl implements ShopService {
 
   @Override
   public Shop save(Shop shop) {
+
     return shopRepository.save(shop);
   }
 
   @Override
-  public Optional<Shop> findById(long id) {
-    return shopRepository.findById(id);
+  public Shop findById(long id) {
+    if(id <= 0) {
+      throw new IllegalArgumentException("Invalid id supplied");
+    }
+    return shopRepository.findById(id).orElseThrow(
+            () -> new EntityNotFoundException("Store not found")
+    );
   }
 
   @Override
@@ -33,6 +38,9 @@ public class ShopServiceImpl implements ShopService {
 
   @Override
   public Shop update(Long id, Shop newShop) {
+    if(id <= 0) {
+      throw new IllegalArgumentException("Invalid id supplied");
+    }
     return shopRepository
         .findById(id)
         .map(
@@ -47,6 +55,9 @@ public class ShopServiceImpl implements ShopService {
 
   @Override
   public void delete(Long id) {
+    if(id <= 0) {
+      throw new IllegalArgumentException("Invalid id supplied");
+    }
     if (!shopRepository.existsById(id)) {
       throw new EntityNotFoundException("Store not found");
     }

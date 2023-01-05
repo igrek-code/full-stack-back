@@ -23,11 +23,11 @@ public class Product {
   private long id;
 
   @Column
-  @NotBlank
+  @NotBlank(message = "French name is mandatory")
   private String nameFR;
 
   @Column
-  @NotBlank
+  @NotBlank(message = "English name is mandatory")
   private String nameENG;
 
   @Column

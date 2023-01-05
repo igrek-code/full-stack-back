@@ -1,8 +1,7 @@
 package univrouen.full_stack_back;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -10,25 +9,33 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 import java.util.HashMap;
-import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandling {
 
-  @ExceptionHandler(MethodArgumentNotValidException.class)
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  protected Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-    Map<String, String> errors = new HashMap<>();
-    ex.getBindingResult()
-        .getAllErrors()
-        .forEach(
-            (error) -> {
-              String fieldName = ((FieldError) error).getField();
-              String errorMessage = error.getDefaultMessage();
-              errors.put(fieldName, errorMessage);
-            });
-    return errors;
-  }
+    @ExceptionHandler(InvalidFormatException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public HashMap<String, String> handleInvalidFormatException(InvalidFormatException e) {
+        HashMap<String, String> errors = new HashMap<>();
+        String field = e.getPath().get(0).getFieldName();
+        errors.put(field, "Invalid format");
+        return errors;
+    }
+
+//  @ExceptionHandler(MethodArgumentNotValidException.class)
+//  @ResponseStatus(HttpStatus.BAD_REQUEST)
+//  protected Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+//    Map<String, String> errors = new HashMap<>();
+//    ex.getBindingResult()
+//        .getAllErrors()
+//        .forEach(
+//            (error) -> {
+//              String fieldName = ((FieldError) error).getField();
+//              String errorMessage = error.getDefaultMessage();
+//              errors.put(fieldName, errorMessage);
+//            });
+//    return errors;
+//  }
 
     @ExceptionHandler(NumberFormatException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

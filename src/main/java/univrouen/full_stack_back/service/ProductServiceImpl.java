@@ -9,7 +9,6 @@ import univrouen.full_stack_back.repository.ProductRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -19,24 +18,29 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
   public Product save(Product product, long shopId) {
-      // Find the shop
-      Optional<Shop> optionalShop = shopService.findById(shopId);
-      if (!optionalShop.isPresent()) {
-          throw new EntityNotFoundException("Shop not found");
-      }
-      Shop shop = optionalShop.get();
+        if (product.getPrice()<=0)
+            throw new IllegalArgumentException("price must be greater then 0");
+      Shop shop = shopService.findById(shopId);
       product.setShop(shop);
     Product insertedProduct = productRepository.save(product);
     shopService.incrementProductCount(insertedProduct.getShop().getId());
     return insertedProduct;
   }
 
-  public Optional<Product> findById(long id) {
-    return productRepository.findById(id);
+  public Product findById(long id) {
+      if(id <= 0) {
+          throw new IllegalArgumentException("Invalid id supplied");
+      }
+        return productRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Product not found")
+        );
   }
 
   @Override
   public Product update(long id, Product newProduct) {
+      if(id <= 0) {
+          throw new IllegalArgumentException("Invalid id supplied");
+      }
     return productRepository
         .findById(id)
         .map(
@@ -48,12 +52,15 @@ public class ProductServiceImpl implements ProductService {
               product.setDescriptionENG(newProduct.getDescriptionENG());
               return productRepository.save(product);
             })
-        .orElseThrow(() -> new RuntimeException("Product does not exist!"));
+        .orElseThrow(() -> new EntityNotFoundException("Product not found"));
   }
 
   @Override
   public void delete(long id) {
-    Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product does not exist!"));
+      if(id <= 0) {
+          throw new IllegalArgumentException("Invalid id supplied");
+      }
+    Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
     int categoryCount = product.getCategories().size();
     shopService.decrementCategoryCount(product.getShop().getId(), categoryCount);
     shopService.decrementProductCount(product.getShop().getId(), 1);
@@ -63,6 +70,10 @@ public class ProductServiceImpl implements ProductService {
 
 @Override
 public List<Product> findAllByShopId(long shopId){
+    if(shopId <= 0) {
+        throw new IllegalArgumentException("Invalid id supplied");
+    }
+    shopService.findById(shopId);
         return productRepository.findAllByShopId(shopId);
     }
 
