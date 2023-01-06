@@ -14,10 +14,12 @@ public interface ShopService {
   Shop update(Long shopId, Shop shop);
 
   void delete(Long id);
+
   void incrementProductCount(long id);
 
   void decrementProductCount(long id, int count);
 
   void incrementCategoryCount(long id);
+
   void decrementCategoryCount(long id, int count);
 }

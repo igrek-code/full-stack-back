@@ -47,7 +47,7 @@ public class Shop {
 
   @OneToOne(cascade = CascadeType.ALL)
   @NotNull(message = "schedule is mandatory")
-  @Schema(example = "\"lundi\": [\"9-15\"], \"mardi\": [\"6-12\", \"15-18\"]")
+  @Schema(example = "\"monday\": \"9-15\", \"tuesday\": \"6-12\", \"15-18\"")
   private OpeningSchedule schedule;
 
   @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -58,6 +58,4 @@ public class Shop {
   void onCreate() {
     this.creationDate = LocalDateTime.now();
   }
-
-
 }

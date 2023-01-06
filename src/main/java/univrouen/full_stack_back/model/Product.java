@@ -33,21 +33,20 @@ public class Product {
   @Column
   @NotNull(message = "price is mandatory")
   @Schema(example = "5.40")
-  //    TODO add contraint to put price in query post
   private double price;
 
   @Column
-  //    TODO insert schema for description
+  @Schema(example = "description en français")
   private String descriptionFR;
 
   @Column
+  @Schema(example = "description in english")
   private String descriptionENG;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "shop_id")
   @JsonBackReference
   @NotNull(message = "shop is mandatory")
-  //    TODO add schema to shop in product
   private Shop shop;
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

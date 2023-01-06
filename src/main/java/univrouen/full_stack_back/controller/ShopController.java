@@ -19,15 +19,15 @@ import java.util.stream.Collectors;
 public class ShopController {
   @Autowired ShopService shopService;
 
-  @Autowired
-  private ModelMapper modelMapper;
+  @Autowired private ModelMapper modelMapper;
 
   @PostMapping(consumes = "application/json", produces = "application/json")
   @ResponseStatus(HttpStatus.CREATED)
   @ApiOperation(value = "Add a new store")
   @ApiResponses({@ApiResponse(code = 400, message = "Bad request")})
   public Shop addShop(
-      @ApiParam(value = "New store", required = true) @Valid @RequestBody(required = true) ShopDto shopDto)  {
+      @ApiParam(value = "New store", required = true) @Valid @RequestBody(required = true)
+          ShopDto shopDto) {
     Shop shop = modelMapper.map(shopDto, Shop.class);
     return shopService.save(shop);
   }
@@ -40,9 +40,7 @@ public class ShopController {
     @ApiResponse(code = 404, message = "Store not found")
   })
   public ShopDto getShop(
-      @ApiParam(value = "Store id", required = true)
-      @PathVariable(required = true)
-      Long id) {
+      @ApiParam(value = "Store id", required = true) @PathVariable(required = true) long id) {
     Shop shop = shopService.findById(id);
     ShopDto shopDto = modelMapper.map(shop, ShopDto.class);
     return shopDto;
@@ -52,10 +50,9 @@ public class ShopController {
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Get all shops")
   public List<ShopDto> getShops() {
-    return shopService.findAll()
-            .stream()
-            .map(shop -> modelMapper.map(shop, ShopDto.class))
-            .collect(Collectors.toList());
+    return shopService.findAll().stream()
+        .map(shop -> modelMapper.map(shop, ShopDto.class))
+        .collect(Collectors.toList());
   }
 
   @PutMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
@@ -67,12 +64,13 @@ public class ShopController {
   })
   public ShopDto updateShop(
       @ApiParam(value = "Store id to modify", required = true) @PathVariable(required = true)
-          Long id,
-      @ApiParam(value = "New store information", required = true) @RequestBody @Valid ShopDto shopDto) {
+          long id,
+      @ApiParam(value = "New store information", required = true) @RequestBody @Valid
+          ShopDto shopDto) {
 
     Shop shopRequest = modelMapper.map(shopDto, Shop.class);
-     Shop shop = shopService.update(id, shopRequest);
-     return modelMapper.map(shop, ShopDto.class);
+    Shop shop = shopService.update(id, shopRequest);
+    return modelMapper.map(shop, ShopDto.class);
   }
 
   @DeleteMapping(path = "/{id}")

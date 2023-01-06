@@ -23,12 +23,12 @@ public class ShopServiceImpl implements ShopService {
 
   @Override
   public Shop findById(long id) {
-    if(id <= 0) {
+    if (id <= 0) {
       throw new IllegalArgumentException("Invalid id supplied");
     }
-    return shopRepository.findById(id).orElseThrow(
-            () -> new EntityNotFoundException("Store not found")
-    );
+    return shopRepository
+        .findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Store not found"));
   }
 
   @Override
@@ -38,7 +38,7 @@ public class ShopServiceImpl implements ShopService {
 
   @Override
   public Shop update(Long id, Shop newShop) {
-    if(id <= 0) {
+    if (id <= 0) {
       throw new IllegalArgumentException("Invalid id supplied");
     }
     return shopRepository
@@ -55,7 +55,7 @@ public class ShopServiceImpl implements ShopService {
 
   @Override
   public void delete(Long id) {
-    if(id <= 0) {
+    if (id <= 0) {
       throw new IllegalArgumentException("Invalid id supplied");
     }
     if (!shopRepository.existsById(id)) {
@@ -64,36 +64,51 @@ public class ShopServiceImpl implements ShopService {
     shopRepository.deleteById(id);
   }
 
-    @Override
+  @Override
   public void incrementProductCount(long id) {
-    shopRepository.findById(id).map(shop -> {
-      shop.setProductCount(shop.getProductCount() + 1);
-      return shopRepository.save(shop);
-    }).orElseThrow(() -> new RuntimeException("shop does not exist!"));
+    shopRepository
+        .findById(id)
+        .map(
+            shop -> {
+              shop.setProductCount(shop.getProductCount() + 1);
+              return shopRepository.save(shop);
+            })
+        .orElseThrow(() -> new RuntimeException("shop does not exist!"));
   }
 
   @Override
   public void decrementProductCount(long id, int count) {
-    shopRepository.findById(id).map(shop -> {
-      shop.setProductCount(shop.getProductCount() - count);
-      return shopRepository.save(shop);
-    }).orElseThrow(() -> new RuntimeException("shop does not exist!"));
+    shopRepository
+        .findById(id)
+        .map(
+            shop -> {
+              shop.setProductCount(shop.getProductCount() - count);
+              return shopRepository.save(shop);
+            })
+        .orElseThrow(() -> new RuntimeException("shop does not exist!"));
   }
 
   @Override
   public void incrementCategoryCount(long id) {
-    shopRepository.findById(id).map(shop -> {
-      shop.setCategoryCount(shop.getCategoryCount() + 1);
-      return shopRepository.save(shop);
-    }).orElseThrow(() -> new RuntimeException("shop does not exist!"));
+    shopRepository
+        .findById(id)
+        .map(
+            shop -> {
+              shop.setCategoryCount(shop.getCategoryCount() + 1);
+              return shopRepository.save(shop);
+            })
+        .orElseThrow(() -> new RuntimeException("shop does not exist!"));
   }
 
   @Override
   public void decrementCategoryCount(long id, int count) {
-    shopRepository.findById(id).map(shop -> {
-      shop.setCategoryCount(shop.getCategoryCount() - count);
-      return shopRepository.save(shop);
-    }).orElseThrow(() -> new RuntimeException("shop does not exist!"));
+    shopRepository
+        .findById(id)
+        .map(
+            shop -> {
+              shop.setCategoryCount(shop.getCategoryCount() - count);
+              return shopRepository.save(shop);
+            })
+        .orElseThrow(() -> new RuntimeException("shop does not exist!"));
   }
-
 }

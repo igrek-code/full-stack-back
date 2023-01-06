@@ -25,17 +25,17 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   public Category findById(long id) {
-    if(id <= 0) {
+    if (id <= 0) {
       throw new IllegalArgumentException("Invalid id supplied");
     }
-    return categoryRepository.findById(id).orElseThrow(
-            () -> new EntityNotFoundException("Category not found")
-    );
+    return categoryRepository
+        .findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Category not found"));
   }
 
   @Override
   public Category update(long id, Category newCategory) {
-    if(id <= 0) {
+    if (id <= 0) {
       throw new IllegalArgumentException("Invalid id supplied");
     }
     return categoryRepository
@@ -50,10 +50,13 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   public void delete(long id) {
-    if(id <= 0) {
+    if (id <= 0) {
       throw new IllegalArgumentException("Invalid id supplied");
     }
-    Category category = categoryRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Category not found"));
+    Category category =
+        categoryRepository
+            .findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Category not found"));
     Product product = productService.findById(category.getProduct().getId());
     shopService.decrementCategoryCount(product.getShop().getId(), 1);
     categoryRepository.deleteById(id);
@@ -61,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   public List<Category> findAllByProductId(long id) {
-    if(id <= 0) {
+    if (id <= 0) {
       throw new IllegalArgumentException("Invalid id supplied");
     }
     productService.findById(id);
