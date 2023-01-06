@@ -22,6 +22,14 @@ public class GlobalExceptionHandling {
         return errors;
     }
 
+    @ExceptionHandler(NullPointerException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public HashMap<String, String> handleNullPointerExceptions(NullPointerException e) {
+        HashMap<String, String> errors = new HashMap<>();
+        errors.put("message", "you must provide a value for id");
+        return errors;
+    }
+
 //  @ExceptionHandler(MethodArgumentNotValidException.class)
 //  @ResponseStatus(HttpStatus.BAD_REQUEST)
 //  protected Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {

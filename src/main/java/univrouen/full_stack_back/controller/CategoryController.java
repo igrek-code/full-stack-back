@@ -10,7 +10,6 @@ import univrouen.full_stack_back.dto.CategoryDto;
 import univrouen.full_stack_back.model.Category;
 import univrouen.full_stack_back.service.CategoryService;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,37 +26,43 @@ public class CategoryController {
   @PostMapping(consumes = "application/json", produces = "application/json")
   @ResponseStatus(HttpStatus.CREATED)
   @ApiOperation(value = "Add a new category to product")
-  @ApiResponses({@ApiResponse(code = 400, message = "Bad request")})
+  @ApiResponses({
+          @ApiResponse(code = 400, message = "Bad request"),
+          @ApiResponse(code = 404, message = "Product not found")
+  })
   public CategoryDto addCategory(
       @ApiParam(value = "New category", required = true)
       @Valid @RequestBody(required = true)
       CategoryDto categoryDto,
-      @Param("productId") long productId) {
+      @ApiParam(value = "Product id", required = true)
+      @Param("productId")
+      Long productId) {
     Category category = modelMapper.map(categoryDto, Category.class);
     return modelMapper.map(categoryService.save(category, productId), CategoryDto.class);
   }
 
   @GetMapping(path = "/{id}", produces = "application/json")
   @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(value = "Get categories by product id")
+  @ApiOperation(value = "Get category by id")
   @ApiResponses({
     @ApiResponse(code = 400, message = "Invalid id supplied"),
-    @ApiResponse(code = 404, message = "Store not found")
+    @ApiResponse(code = 404, message = "Category not found")
   })
   public CategoryDto getCategory(
-      @ApiParam(value = "Category id", required = true) @PathVariable(required = true) long id) {
-  return modelMapper.map(categoryService.findById(id).orElseThrow(() -> new EntityNotFoundException("invalid category id")), CategoryDto.class);
+      @ApiParam(value = "Category id", required = true) @PathVariable(required = true) Long id) {
+  return modelMapper.map(categoryService.findById(id), CategoryDto.class);
   }
 
   @GetMapping(produces = "application/json")
   @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(value = "Get products by shop id")
+  @ApiOperation(value = "Get categories by product id")
   @ApiResponses({
-          @ApiResponse(code = 400, message = "Invalid shop id supplied"),
-          @ApiResponse(code = 404, message = "No product found")
+          @ApiResponse(code = 400, message = "Invalid product id supplied")
   })
   public List<CategoryDto> getCategoriesByProductId(
-          @ApiParam(value = "product id", required = true) @Param("productId") Long productId) {
+          @ApiParam(value = "product id", required = true)
+          @Param("productId")
+          Long productId) {
     return categoryService.findAllByProductId(productId)
             .stream().map(
                     category -> modelMapper.map(category, CategoryDto.class)
@@ -68,15 +73,18 @@ public class CategoryController {
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Update category by id")
   @ApiResponses({
-    @ApiResponse(code = 400, message = "Invalid id supplied"),
-    @ApiResponse(code = 404, message = "Category not found"),
-    @ApiResponse(code = 405, message = "Validation exception")
+    @ApiResponse(code = 400, message = "Bad request"),
+    @ApiResponse(code = 404, message = "Category not found")
   })
   public Category updateCategory(
-      @ApiParam(value = "Category id to modify", required = true) @PathVariable(required = true)
+      @ApiParam(value = "Category id to modify", required = true)
+      @PathVariable(required = true)
           Long id,
-      @ApiParam(value = "New category information", required = true) @RequestBody
-          Category category) {
+      @ApiParam(value = "New category information", required = true)
+      @Valid
+      @RequestBody
+          CategoryDto categoryDto) {
+    Category category = modelMapper.map(categoryDto, Category.class);
     return categoryService.update(id, category);
   }
 

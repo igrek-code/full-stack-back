@@ -26,6 +26,5 @@ public class Category {
   @ManyToOne
   @JoinColumn(name = "product_id")
   @JsonBackReference
-  //    TODO add schema to shop in product
   private Product product;
 }

@@ -5,25 +5,18 @@ import org.springframework.stereotype.Service;
 import univrouen.full_stack_back.model.Category;
 import univrouen.full_stack_back.model.Product;
 import univrouen.full_stack_back.repository.CategoryRepository;
-import univrouen.full_stack_back.repository.ProductRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
   @Autowired private CategoryRepository categoryRepository;
   @Autowired private ShopService shopService;
-  @Autowired private ProductRepository productRepository;
+  @Autowired private ProductService productService;
 
   public Category save(Category category, long productId) {
-    // Find the shop
-    Optional<Product> optionalProduct = productRepository.findById(productId);
-    if (!optionalProduct.isPresent()) {
-      throw new EntityNotFoundException("Product not found");
-    }
-    Product product = optionalProduct.get();
+    Product product = productService.findById(productId);
     category.setProduct(product);
     Category insertedCategory = categoryRepository.save(category);
     shopService.incrementCategoryCount(product.getShop().getId());
@@ -31,12 +24,20 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public Optional<Category> findById(long id) {
-    return categoryRepository.findById(id);
+  public Category findById(long id) {
+    if(id <= 0) {
+      throw new IllegalArgumentException("Invalid id supplied");
+    }
+    return categoryRepository.findById(id).orElseThrow(
+            () -> new EntityNotFoundException("Category not found")
+    );
   }
 
   @Override
   public Category update(long id, Category newCategory) {
+    if(id <= 0) {
+      throw new IllegalArgumentException("Invalid id supplied");
+    }
     return categoryRepository
         .findById(id)
         .map(
@@ -44,19 +45,26 @@ public class CategoryServiceImpl implements CategoryService {
               category.setName(newCategory.getName());
               return categoryRepository.save(category);
             })
-        .orElseThrow(() -> new RuntimeException("Category does not exist!"));
+        .orElseThrow(() -> new EntityNotFoundException("Category not found"));
   }
 
   @Override
   public void delete(long id) {
-    Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category does not exist!"));
-    Product product = productRepository.findById(category.getProduct().getId()).orElseThrow(() -> new RuntimeException("Product does not exist!"));
+    if(id <= 0) {
+      throw new IllegalArgumentException("Invalid id supplied");
+    }
+    Category category = categoryRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Category not found"));
+    Product product = productService.findById(category.getProduct().getId());
     shopService.decrementCategoryCount(product.getShop().getId(), 1);
     categoryRepository.deleteById(id);
   }
 
   @Override
   public List<Category> findAllByProductId(long id) {
+    if(id <= 0) {
+      throw new IllegalArgumentException("Invalid id supplied");
+    }
+    productService.findById(id);
     return categoryRepository.findAllByProductId(id);
   }
 }
