@@ -19,7 +19,5 @@ public interface ShopService {
 
   void decrementProductCount(long id, int count);
 
-  void incrementCategoryCount(long id);
-
-  void decrementCategoryCount(long id, int count);
+  void updateCategoryCount(long id);
 }

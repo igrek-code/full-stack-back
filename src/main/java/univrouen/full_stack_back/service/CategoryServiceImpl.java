@@ -19,7 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
     Product product = productService.findById(productId);
     category.setProduct(product);
     Category insertedCategory = categoryRepository.save(category);
-    shopService.incrementCategoryCount(product.getShop().getId());
+    shopService.updateCategoryCount(product.getShop().getId());
     return insertedCategory;
   }
 
@@ -58,8 +58,8 @@ public class CategoryServiceImpl implements CategoryService {
             .findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Category not found"));
     Product product = productService.findById(category.getProduct().getId());
-    shopService.decrementCategoryCount(product.getShop().getId(), 1);
     categoryRepository.deleteById(id);
+    shopService.updateCategoryCount(product.getShop().getId());
   }
 
   @Override

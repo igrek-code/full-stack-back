@@ -1,6 +1,7 @@
 package univrouen.full_stack_back.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import univrouen.full_stack_back.model.Shop;
 import univrouen.full_stack_back.repository.ProductRepository;
@@ -14,6 +15,7 @@ public class ShopServiceImpl implements ShopService {
   @Autowired private ShopRepository shopRepository;
 
   @Autowired private ProductRepository productRepository;
+  @Autowired private JdbcTemplate jdbcTemplate;
 
   @Override
   public Shop save(Shop shop) {
@@ -73,7 +75,7 @@ public class ShopServiceImpl implements ShopService {
               shop.setProductCount(shop.getProductCount() + 1);
               return shopRepository.save(shop);
             })
-        .orElseThrow(() -> new RuntimeException("shop does not exist!"));
+        .orElseThrow(() -> new EntityNotFoundException("shop does not exist!"));
   }
 
   @Override
@@ -85,30 +87,13 @@ public class ShopServiceImpl implements ShopService {
               shop.setProductCount(shop.getProductCount() - count);
               return shopRepository.save(shop);
             })
-        .orElseThrow(() -> new RuntimeException("shop does not exist!"));
+        .orElseThrow(() -> new EntityNotFoundException("shop does not exist!"));
   }
 
   @Override
-  public void incrementCategoryCount(long id) {
-    shopRepository
-        .findById(id)
-        .map(
-            shop -> {
-              shop.setCategoryCount(shop.getCategoryCount() + 1);
-              return shopRepository.save(shop);
-            })
-        .orElseThrow(() -> new RuntimeException("shop does not exist!"));
-  }
-
-  @Override
-  public void decrementCategoryCount(long id, int count) {
-    shopRepository
-        .findById(id)
-        .map(
-            shop -> {
-              shop.setCategoryCount(shop.getCategoryCount() - count);
-              return shopRepository.save(shop);
-            })
-        .orElseThrow(() -> new RuntimeException("shop does not exist!"));
+  public void updateCategoryCount(long id) {
+    String updateQuery =
+        "UPDATE shop SET category_count = (SELECT COUNT(DISTINCT name) FROM category WHERE product_id IN (SELECT id FROM product WHERE shop_id = shop.id))";
+    jdbcTemplate.update(updateQuery);
   }
 }

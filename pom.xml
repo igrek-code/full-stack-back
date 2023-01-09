@@ -11,7 +11,7 @@
     <groupId>univrouen</groupId>
     <artifactId>full_stack_back</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>full_stack_back</name>
     <description>full stack project back end</description>
     <properties>

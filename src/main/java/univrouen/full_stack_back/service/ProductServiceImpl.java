@@ -63,10 +63,10 @@ public class ProductServiceImpl implements ProductService {
         productRepository
             .findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Product not found"));
-    int categoryCount = product.getCategories().size();
-    shopService.decrementCategoryCount(product.getShop().getId(), categoryCount);
+    long shopId = product.getShop().getId();
     shopService.decrementProductCount(product.getShop().getId(), 1);
     productRepository.deleteById(id);
+    shopService.updateCategoryCount(shopId);
   }
 
   @Override

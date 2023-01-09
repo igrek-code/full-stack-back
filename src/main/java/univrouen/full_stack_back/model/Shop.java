@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Table(name = "Shop")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

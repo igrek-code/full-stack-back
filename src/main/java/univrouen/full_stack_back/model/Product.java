@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-@Table(name = "Product")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -35,11 +34,11 @@ public class Product {
   @Schema(example = "5.40")
   private double price;
 
-  @Column
+  @Column(columnDefinition = "TEXT")
   @Schema(example = "description en français")
   private String descriptionFR;
 
-  @Column
+  @Column(columnDefinition = "TEXT")
   @Schema(example = "description in english")
   private String descriptionENG;
 
